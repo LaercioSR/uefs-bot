@@ -53,7 +53,6 @@ function init() {
       console.log(error.message);
     } else {
       data.statuses.forEach((tweet) => {
-        if((new Date(tweet.created_at)).getTime() > now.getTime())
         bot.post('favorites/create', { id: tweet.id_str }, (error: IErrorSearch, response) => {
           if (response) {
             console.log("Successfully favorite.");
