@@ -76,4 +76,4 @@ function init() {
 }
 
 init();
-setInterval(init, 1000 * 60 * 1);
+setInterval(init, 1000 * 60 * 60);
