@@ -1,7 +1,34 @@
 import dotenv from "dotenv";
-import Twit from "twit";
+import Twit, { Params } from "twit";
 
 dotenv.config();
+
+interface IUserTwitter {
+  "id": number,
+  "id_str": string,
+  "name": string,
+  "screen_name": string,
+  "location": string,
+  "description": string,
+  "url": string,
+}
+
+interface IStatus {
+  created_at: Date,
+  id: number,
+  id_str: string,
+  text: string,
+  user: IUserTwitter,
+  lang: string
+}
+
+interface IResponseSearch {
+  statuses: IStatus[]
+}
+
+interface IErrorSearch {
+  message: string
+}
 
 const bot = new Twit({
   consumer_key: process.env.CONSUMER_KEY,
@@ -11,22 +38,42 @@ const bot = new Twit({
   timeout_ms: 60 * 1000,
 });
 
-function firstTweet() {
-  const postTweet = "Primeiro tweet, apenas para teste";
-  bot.post(
-    "statuses/update",
-    { status: postTweet },
-    function (err, data, response) {
-      if (err) {
-        console.log("Error: " + err.message);
-        return false;
-      }
+function init() {
+  const search: Params = {
+    q: "uefs",
+    count: 25,
+    result_type: "recent",
+  };
 
-      console.log("Tweet posted successfully!\n");
+  const now = new Date();
+  now.setHours(now.getHours() -1);
+  console.log(now)
+  bot.get("search/tweets", search, (error: IErrorSearch, data: IResponseSearch) => {
+    if (error) {
+      console.log(error.message);
+    } else {
+      data.statuses.forEach((tweet) => {
+        if((new Date(tweet.created_at)).getTime() > now.getTime())
+        bot.post('favorites/create', { id: tweet.id_str }, (error: IErrorSearch, response) => {
+          if (response) {
+            console.log("Successfully favorite.");
+          }
+          if (error) {
+            console.log(error.message);
+          }
+        });
+        bot.post("statuses/retweet/" + tweet.id_str, {}, (error: IErrorSearch, response) => {
+          if (response) {
+            console.log("Successfully retweeted.");
+          }
+          if (error) {
+            console.log(error.message);
+          }
+        });
+      });
     }
-  );
+  });
 }
 
-firstTweet();
-
-// setInterval(firstTweet, 30000);
+init();
+setInterval(init, 1000 * 60 * 1);
