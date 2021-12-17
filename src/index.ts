@@ -41,7 +41,7 @@ const bot = new Twit({
 function init() {
   const search: Params = {
     q: "uefs",
-    count: 25,
+    count: 5,
     result_type: "recent",
   };
 
@@ -75,4 +75,4 @@ function init() {
 }
 
 init();
-setInterval(init, 1000 * 60 * 60);
+setInterval(init, 1000 * 60 * 10);
