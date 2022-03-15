@@ -19,7 +19,9 @@ interface IStatus {
   id_str: string,
   text: string,
   user: IUserTwitter,
-  lang: string
+  lang: string,
+  possibly_sensitive: boolean,
+  retweeted: boolean
 }
 
 interface IResponseSearch {
@@ -53,22 +55,24 @@ function init() {
       console.log(error.message);
     } else {
       data.statuses.forEach((tweet) => {
-        bot.post('favorites/create', { id: tweet.id_str }, (error: IErrorSearch, response) => {
-          if (response) {
-            console.log("Successfully favorite.");
-          }
-          if (error) {
-            console.log(error.message);
-          }
-        });
-        bot.post("statuses/retweet/" + tweet.id_str, {}, (error: IErrorSearch, response) => {
-          if (response) {
-            console.log("Successfully retweeted.");
-          }
-          if (error) {
-            console.log(error.message);
-          }
-        });
+        if(!tweet.possibly_sensitive && !tweet.retweeted) {
+          bot.post('favorites/create', { id: tweet.id_str }, (error: IErrorSearch, response) => {
+            if (response) {
+              console.log("Successfully favorite.");
+            }
+            if (error) {
+              console.log(error.message);
+            }
+          });
+          bot.post("statuses/retweet/" + tweet.id_str, {}, (error: IErrorSearch, response) => {
+            if (response) {
+              console.log("Successfully retweeted.");
+            }
+            if (error) {
+              console.log(error.message);
+            }
+          });
+        }
       });
     }
   });
