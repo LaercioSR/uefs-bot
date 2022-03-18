@@ -7,7 +7,7 @@ async function schedules(bot: Twit) {
   schedule.scheduleJob("*/10 * * * ", () => {
     retweet(bot);
   });
-  schedule.scheduleJob("0 11 * * *", () => {
+  schedule.scheduleJob("0 7 * * *", () => {
     tweetDays(bot);
   });
 }

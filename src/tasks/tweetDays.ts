@@ -39,7 +39,9 @@ function tweetDays(bot: Twit) {
       } else {
         message = `Hoje é o fim do semestre`;
       }
-      bot.post("statuses/update", { status: message });
+      bot.post("statuses/update", { status: message }, (err, result) => {
+        console.log(result)
+      });
     }
   });
 }
