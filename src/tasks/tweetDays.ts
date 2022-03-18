@@ -15,7 +15,7 @@ interface ISemesters {
 
 const semesters: ISemesters = {
   "2022.1": {
-    start_classes: dayjs("2022-03"),
+    start_classes: dayjs("2022-03-07 00:00:00"),
     end_classes: dayjs("2022-07-09 23:59:59"),
   },
 };
