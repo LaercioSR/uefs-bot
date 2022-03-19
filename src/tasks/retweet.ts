@@ -47,7 +47,8 @@ function retweet(bot: Twit) {
         console.log(error.message);
       } else {
         data.statuses.forEach((tweet) => {
-          if (!tweet.possibly_sensitive && !tweet.retweeted) {
+          console.log(tweet.text)
+          if (!tweet.possibly_sensitive) {
             bot.post(
               "favorites/create",
               { id: tweet.id_str },
