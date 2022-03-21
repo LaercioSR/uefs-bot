@@ -4,7 +4,7 @@ import { retweet } from "./retweet";
 import { tweetDays } from "./tweetDays";
 
 async function schedules(bot: Twit) {
-  schedule.scheduleJob("*/10 * * * ", () => {
+  schedule.scheduleJob("*/5 * * * * ", () => {
     retweet(bot);
   });
   schedule.scheduleJob("0 7 * * *", () => {

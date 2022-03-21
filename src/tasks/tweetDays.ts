@@ -35,12 +35,12 @@ function tweetDays(bot: Twit) {
       const diffDays = semester.end_classes.diff(dayjs(), "days");
       let message: string = "";
       if (diffDays > 0) {
-        message = `Faltam ${diffDays} dias para o fim do semestre`;
+        message = `Faltam ${diffDays} dias para o fim do semestre ${semester_number} da UEFS`;
       } else {
-        message = `Hoje é o fim do semestre`;
+        message = `Hoje é o fim do semestre ${semester_number} da UEFS`;
       }
       bot.post("statuses/update", { status: message }, (err, result) => {
-        console.log(result)
+        console.log(result);
       });
     }
   });
