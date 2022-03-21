@@ -31,7 +31,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           source: "., !node_modules"
-          target: "~/app/uefs-bot"
+          target: "~/uefs-bot"
           
       - name: Update API
         uses: appleboy/ssh-action@master
@@ -41,6 +41,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/app/uefs-bot
+            cd ~/uefs-bot
             npm i
             pm2 restart uefsbot
